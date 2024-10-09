@@ -6,3 +6,8 @@ distribution = "2201.10.1"
 
 [build-options]
 observabilityIncluded = true
+
+[[dependency]]
+org = "ballerina"
+name = "jdbc"
+version = "0.9.0"  # Update based on your distribution
