@@ -13,7 +13,7 @@ service /store on new http:Listener(9090) {
 
     public function init() returns error? {
         // Initialize the database client without explicit SSL configuration
-        self.databaseClient = check new(host, username, password, databaseName, port);
+        self.databaseClient = check new (host, username, password, databaseName, port);
     }
 
     // Health check endpoint to verify DB connection
