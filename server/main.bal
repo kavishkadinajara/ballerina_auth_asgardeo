@@ -1,32 +1,56 @@
-import ballerina/io;
-import ballerina/sql;
-import ballerina/jdbc;
+import ballerina/http;
+import ballerinax/postgresql;
+import ballerinax/postgresql.driver as _;
 
-public function main() returns error? {
-    // Initialize the JDBC client for PostgreSQL with Supabase connection details
-    jdbc:Client|error supabaseClient = new ({
-        url: "jdbc:postgresql://aws-0-ap-south-1.pooler.supabase.com:6543/postgres",
-        username: "postgres.acqwyyoukqstofbbbwno",
-        password: "unNFxZ4yc85fjEbC",
-        poolOptions: { maximumPoolSize: 5 },
-        dbOptions: { ssl: { mode: "disable" } }
-    });
 
-    if supabaseClient is jdbc:Client {
-        // Example: Execute a query
-        sql:ParameterizedQuery query = `SELECT * FROM your_table`;
+type Item record {
+    int id?;
+    string name;
+    int quentity;
+};
 
-        // Fetch results from Supabase
-        stream<record {}, sql:Error?> resultStream = supabaseClient->query(query);
+configurable string host = ?;
+configurable int port = ?;
+configurable string username = ?;
+configurable string password = ?;
+configurable string databaseName = ?;
 
-        // Iterate through the results
-        error? e = resultStream.forEach(function(record {} result) {
-            io:println(result);
-        });
+service /store on new http:Listener(9090) {
+    final postgresql:Client  databaseClient;
 
-        // Close the client
-        check supabaseClient.close();
-    } else {
-        io:println("Error initializing client: ", supabaseClient);
+    public function init() returns error?{
+        self.databaseClient = check new(host,username,password,databaseName,port);
     }
+    
+    // resource function get .()  returns  Item[]|error {
+
+    //     stream<Item,sql:Error?> itemStream =  self.databaseClient->query(`SELECT * FROM Inventory`);
+    //     return from Item item in itemStream select item;
+
+    // }
+    // resource function get singleitem/[int item_id]()  returns  Item[]|error {
+     
+    //     stream<Item,sql:Error?> itemStream =  self.databaseClient->query(`SELECT * FROM Inventory Where id = ${item_id}`);
+    //     return from Item item in itemStream select item;
+
+    // }
+    // resource function get singleitem()  returns  Item[]|error {
+     
+    //     stream<Item,sql:Error?> itemStream =  self.databaseClient->query(`SELECT * FROM Inventory Where id = 1`);
+    //     return from Item item in itemStream select item;
+
+    // }
+
+    // resource function post .(@http:Payload Item item) returns error? {
+    //     _ = check self.databaseClient->execute(`INSERT INTO Inventory (name,quentity) VALUES(${item.name},${item.quentity});`);
+    // }
+
+    // resource function get liveness() returns http:Ok {
+    //     return http:OK;
+    // }
+    // resource function get rediness() returns http:Ok|error {
+    //     int _ = check self.databaseClient->queryRow(`SELECT COUNT(*) FROM Inventory`);
+
+    //     return http:OK;
+    // }
 }

@@ -8,6 +8,6 @@ distribution = "2201.10.1"
 observabilityIncluded = true
 
 [[dependency]]
-org = "ballerina"
-name = "jdbc"
-version = "0.9.0"  # Update based on your distribution
+org = "ballerinax"
+name = "postgresql"
+version = "1.13.1"
