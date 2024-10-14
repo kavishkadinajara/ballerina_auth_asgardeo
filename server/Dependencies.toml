@@ -294,7 +294,7 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "time"
-version = "2.4.0"
+version = "2.5.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -335,14 +335,6 @@ modules = [
 ]
 
 [[package]]
-org = "ballerinax"
-name = "postgresql.driver"
-version = "1.5.1"
-modules = [
-	{org = "ballerinax", packageName = "postgresql.driver", moduleName = "postgresql.driver"}
-]
-
-[[package]]
 org = "lenovo"
 name = "server"
 version = "0.1.0"
@@ -351,8 +343,7 @@ dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "test"},
 	{org = "ballerinai", name = "observe"},
-	{org = "ballerinax", name = "postgresql"},
-	{org = "ballerinax", name = "postgresql.driver"}
+	{org = "ballerinax", name = "postgresql"}
 ]
 modules = [
 	{org = "lenovo", packageName = "server", moduleName = "server"},
